@@ -1,0 +1,7 @@
+<launch>
+  <node pkg="nodelet" type="nodelet" name="trik_nodelet_manager"
+    args="manager" />
+    
+  <node pkg="nodelet" type="nodelet" name="trik_node"
+    args="load trik trik_nodelet_manager" />
+</launch>
