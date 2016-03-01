@@ -20,6 +20,6 @@ install(TARGETS trik
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
-install(FILES nodelet_trik.xml trik.launch
+install(FILES nodelet_trik.xml launch/trik.launch
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
