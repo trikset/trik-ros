@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package>
-  <name>trik</name>
+  <name>trik_ros</name>
   <version>0.1.0</version>
   <description>The trik package</description>
 
