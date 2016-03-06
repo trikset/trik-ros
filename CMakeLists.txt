@@ -8,7 +8,12 @@ catkin_package(
   CATKIN_DEPENDS nodelet roscpp
 )
 
-include_directories(${catkin_INCLUDE_DIRS})
+
+include_directories(
+  ${catkin_INCLUDE_DIRS}
+#  ${OE_QMAKE_INCDIR_QT}
+  ${QT}
+)
 
 add_library(trik src/trik.cpp)
 target_link_libraries(trik ${catkin_LIBRARIES})
