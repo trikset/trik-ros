@@ -1,0 +1,3 @@
+<launch>
+    <node pkg="trik_ros" type="standalone_node" name="standalone"/>
+</launch>

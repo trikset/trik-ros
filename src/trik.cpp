@@ -6,10 +6,10 @@
 
 class TrikNode : public nodelet::Nodelet {
 public:
-  void onInit() {
-    NODELET_DEBUG("Initializing TrikNode...");
-    brick = trikControl::BrickFactory::create();
-  }
+    void onInit() {
+        NODELET_INFO("Initializing TrikNode...");
+        brick = trikControl::BrickFactory::create();
+    }
 
 private:
     trikControl::BrickInterface *brick;
