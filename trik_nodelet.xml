@@ -1,0 +1,7 @@
+<library path="lib/libtrik_nodelet">
+  <class name="trik" type="TrikNodelet" base_class_type="nodelet::Nodelet">
+    <description>
+      Trik Nodelet plugin.
+    </description>
+  </class>
+</library>

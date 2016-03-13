@@ -10,7 +10,7 @@ INCLUDE(${QT_USE_FILE})
 ADD_DEFINITIONS(${QT_DEFINITIONS})
 
 catkin_package(
-  LIBRARIES trik
+#  LIBRARIES trik
   CATKIN_DEPENDS nodelet roscpp
 )
 
@@ -19,8 +19,8 @@ include_directories(
   ${QT}
 )
 
-add_library(trik src/trik.cpp)
-target_link_libraries(trik ${catkin_LIBRARIES})
+add_library(trik_nodelet src/trik_nodelet.cpp)
+target_link_libraries(trik_nodelet ${catkin_LIBRARIES} trikControl QtCoreE QtGuiE)
 
 add_executable(standalone_node src/standalone_node.cpp)
 target_link_libraries(standalone_node ${catkin_LIBRARIES} trikControl QtCoreE QtGuiE)
@@ -28,11 +28,11 @@ target_link_libraries(standalone_node ${catkin_LIBRARIES} trikControl QtCoreE Qt
 add_executable(led_distance src/led_distance.cpp)
 target_link_libraries(led_distance ${catkin_LIBRARIES})
 
-install(TARGETS trik standalone_node led_distance
+install(TARGETS trik_nodelet standalone_node led_distance
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
-install(FILES nodelet_trik.xml setup.sh DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+install(FILES trik_nodelet.xml setup.sh DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
 install(DIRECTORY launch/ DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch)

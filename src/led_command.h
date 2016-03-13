@@ -2,7 +2,7 @@
 
 #pragma once
 
-enum Led {
+enum LedCommand {
     OFF = 0,
     GREEN = 1,
     RED = 2,

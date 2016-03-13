@@ -1,7 +1,0 @@
-<library path="lib/libtrik">
-  <class name="trik" type="TrikNode" base_class_type="nodelet::Nodelet">
-    <description>
-      Trik Node
-    </description>
-  </class>
-</library>

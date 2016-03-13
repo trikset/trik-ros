@@ -2,7 +2,7 @@
 
 #include <std_msgs/Int32.h>
 #include "ros/ros.h"
-#include "led.h"
+#include "led_command.h"
 
 ros::Publisher ledPub;
 
@@ -11,9 +11,9 @@ void distance_callback(const std_msgs::Int32 distMsg) {
 
     int dist = distMsg.data;
     if (dist < 20) {
-        ledMsg.data = dist % 2 == 0 ? Led::GREEN : Led::RED;
+        ledMsg.data = dist % 2 == 0 ? LedCommand::GREEN : LedCommand::RED;
     } else {
-        ledMsg.data = Led::OFF;
+        ledMsg.data = LedCommand::OFF;
     }
 
     ledPub.publish(ledMsg);

@@ -5,7 +5,7 @@
 #include "trikControl/brickFactory.h"
 #include "QtGui/QApplication"
 
-#include "led.h"
+#include "led_command.h"
 
 trikControl::BrickInterface *brick;
 trikControl::LedInterface *led;
@@ -13,16 +13,16 @@ trikControl::SensorInterface *distanceSensor;
 
 void led_callback(const std_msgs::Int32 cmd) {
     switch (cmd.data) {
-        case Led::OFF:
+        case LedCommand::OFF:
             led->off();
             break;
-        case Led::GREEN:
+        case LedCommand::GREEN:
             led->green();
             break;
-        case Led::RED:
+        case LedCommand::RED:
             led->red();
             break;
-        case Led::ORANGE:
+        case LedCommand::ORANGE:
             led->orange();
             break;
         default:
