@@ -1,38 +1,64 @@
 #include "ros/ros.h"
+#include "std_msgs/Int32.h"
+
 #include "trikControl/brickInterface.h"
 #include "trikControl/brickFactory.h"
 #include "QtGui/QApplication"
 
-int main(int argc, char **argv) {
-    ros::init(argc, argv, "standalone_trik_node");
+#include "led.h"
 
-//    int qargc = 2;
-//    const char *qargv[] = {"standalone_trik_node", "-qws"}; // todo: try QApplication::Tty for console app?
-//    QApplication app(qargc, (char **) qargv);
-    QApplication app(argc, argv);
+trikControl::BrickInterface *brick;
+trikControl::LedInterface *led;
+trikControl::SensorInterface *distanceSensor;
 
-    ros::NodeHandle nh;
-    ros::Rate loop_rate(1);
-    trikControl::BrickInterface *brick = trikControl::BrickFactory::create("/etc/trik/trikRuntime/system-config.xml",
-                                                                           "/etc/trik/trikRuntime/model-config.xml",
-                                                                           ".");
-    trikControl::LedInterface *led = brick->led();
-    trikControl::SensorInterface *distance = brick->sensor("A1");
-
-    for (int i = 0; ros::ok(); i++) {
-        if (distance->read() < 20) {
-            if (i % 2 == 0) {
-                led->green();
-            } else {
-                led->red();
-            }
-        } else {
+void led_callback(const std_msgs::Int32 cmd) {
+    switch (cmd.data) {
+        case Led::OFF:
             led->off();
-        }
-
-        ros::spinOnce(); // allow callbacks
-        loop_rate.sleep();
+            break;
+        case Led::GREEN:
+            led->green();
+            break;
+        case Led::RED:
+            led->red();
+            break;
+        case Led::ORANGE:
+            led->orange();
+            break;
+        default:
+            break;
     }
-    return 0;
 }
 
+int main(int argc, char **argv) {
+    // start Qt server
+    int qargc = 2;
+    const char *qargv[] = {"standalone_trik_node", "-qws"}; // todo: try QApplication::Tty for console app?
+    QApplication app(qargc, (char **) qargv);
+
+    // init ROS node
+    ros::init(argc, argv, "standalone_trik_node");
+    ros::NodeHandle nh;
+    ros::Rate loopRate(1);
+
+
+    brick = trikControl::BrickFactory::create("/etc/trik/trikRuntime/system-config.xml",
+                                              "/etc/trik/trikRuntime/model-config.xml",
+                                              ".");
+    led = brick->led();
+    distanceSensor = brick->sensor("A1");
+
+    ros::Publisher distancePub = nh.advertise<std_msgs::Int32>("distance", 10);
+    ros::Subscriber sub = nh.subscribe("led_cmd", 10, led_callback);
+
+    while (ros::ok()) {
+        std_msgs::Int32 distanceMsg;
+        distanceMsg.data = distanceSensor->read();
+        distancePub.publish(distanceMsg);
+
+        ros::spinOnce();
+        loopRate.sleep();
+    }
+
+    return 0;
+}

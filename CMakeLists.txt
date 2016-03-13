@@ -25,11 +25,14 @@ target_link_libraries(trik ${catkin_LIBRARIES})
 add_executable(standalone_node src/standalone_node.cpp)
 target_link_libraries(standalone_node ${catkin_LIBRARIES} trikControl QtCoreE QtGuiE)
 
-install(TARGETS trik standalone_node
+add_executable(led_distance src/led_distance.cpp)
+target_link_libraries(led_distance ${catkin_LIBRARIES})
+
+install(TARGETS trik standalone_node led_distance
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
-install(FILES nodelet_trik.xml DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+install(FILES nodelet_trik.xml setup.sh DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
 install(DIRECTORY launch/ DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch)

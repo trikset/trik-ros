@@ -1,3 +1,4 @@
 <launch>
-    <node pkg="trik_ros" type="standalone_node" name="standalone"/>
+    <node pkg="trik_ros" type="standalone_node" name="brick"/>
+    <node pkg="trik_ros" type="led_distance" name="logic"/>
 </launch>
