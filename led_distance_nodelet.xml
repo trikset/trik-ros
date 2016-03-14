@@ -1,0 +1,7 @@
+<library path="lib/libledDistanceNodelet">
+    <class name="LedDistance" type="LedDistance" base_class_type="nodelet::Nodelet">
+        <description>
+            Led distance logic Nodelet plugin.
+        </description>
+    </class>
+</library>

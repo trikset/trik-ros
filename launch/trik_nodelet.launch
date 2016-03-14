@@ -1,4 +1,5 @@
 <launch>
     <node pkg="nodelet" type="nodelet" name="trik_nodelet_manager" args="manager"/>
-    <node pkg="nodelet" type="nodelet" name="trik_node" args="load trik_nodelet trik_nodelet_manager"/>
+    <node pkg="nodelet" type="nodelet" name="trik_node" args="load Trik trik_nodelet_manager"/>
+    <node pkg="nodelet" type="nodelet" name="led_distance" args="load LedDistance trik_nodelet_manager"/>
 </launch>

@@ -4,35 +4,48 @@ project(trik_ros)
 set(CMAKE_CXX_FLAGS "-std=c++11")
 
 find_package(catkin REQUIRED COMPONENTS nodelet roscpp)
+# find_package(Boost) # todo: check run with/without on a real board
 
 find_package(Qt4)
 INCLUDE(${QT_USE_FILE})
 ADD_DEFINITIONS(${QT_DEFINITIONS})
 
 catkin_package(
-#  LIBRARIES trik
-  CATKIN_DEPENDS nodelet roscpp
+        CATKIN_DEPENDS nodelet roscpp
 )
 
 include_directories(
-  ${catkin_INCLUDE_DIRS}
-  ${QT}
+        ${catkin_INCLUDE_DIRS}
+        ${QT}
+        # ${Boost_INCLUDE_DIRS} # todo: check run with/without on a real board
 )
 
-add_library(trik_nodelet src/trik_nodelet.cpp)
-target_link_libraries(trik_nodelet ${catkin_LIBRARIES} trikControl QtCoreE QtGuiE)
+add_executable(trikNode src/trikNode.cpp)
+target_link_libraries(trikNode ${catkin_LIBRARIES} trikControl QtCoreE QtGuiE)
 
-add_executable(standalone_node src/standalone_node.cpp)
-target_link_libraries(standalone_node ${catkin_LIBRARIES} trikControl QtCoreE QtGuiE)
+add_executable(ledDistance src/ledDistance.cpp)
+target_link_libraries(ledDistance ${catkin_LIBRARIES})
 
-add_executable(led_distance src/led_distance.cpp)
-target_link_libraries(led_distance ${catkin_LIBRARIES})
+add_library(trikNodelet src/trikNodelet.cpp)
+target_link_libraries(trikNodelet
+        ${catkin_LIBRARIES}
+        trikControl
+        QtCoreE
+        QtGuiE
+        # ${Boost_LIBRARIES} # todo: check run with/without on a real board
+        )
 
-install(TARGETS trik_nodelet standalone_node led_distance
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
+add_library(ledDistanceNodelet src/ledDistanceNodelet.cpp)
+target_link_libraries(ledDistanceNodelet
+        ${catkin_LIBRARIES}
+        # ${Boost_LIBRARIES} # todo: check run with/without on a real board
+        )
 
-install(FILES trik_nodelet.xml setup.sh DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+install(TARGETS trikNodelet trikNode ledDistance ledDistanceNodelet
+        ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+        LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+        RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+        )
+
+install(FILES trik_nodelet.xml led_distance_nodelet.xml setup.sh DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
 install(DIRECTORY launch/ DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch)

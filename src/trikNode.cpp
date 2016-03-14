@@ -5,7 +5,7 @@
 #include "trikControl/brickFactory.h"
 #include "QtGui/QApplication"
 
-#include "led_command.h"
+#include "ledCommand.h"
 
 trikControl::BrickInterface *brick;
 trikControl::LedInterface *led;

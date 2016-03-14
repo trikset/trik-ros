@@ -1,3 +1,4 @@
+#!/bin/sh
 export ROS_ROOT=/usr
 export ROS_PACKAGE_PATH=/usr/share
 export ROS_MASTER_URI=http://localhost:11311

@@ -2,7 +2,7 @@
 
 #include <std_msgs/Int32.h>
 #include "ros/ros.h"
-#include "led_command.h"
+#include "ledCommand.h"
 
 ros::Publisher ledPub;
 
