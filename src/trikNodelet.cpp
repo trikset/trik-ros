@@ -16,8 +16,7 @@ public:
     void onInit() {
         // start Qt server
         int qargc = 2;
-        const char *qargv[] = {"standalone_trik_node", "-qws"};
-        QApplication app(qargc, (char **) qargv);
+        app = new QApplication(qargc, (char **) qargv);
 
         brick = trikControl::BrickFactory::create("/etc/trik/trikRuntime/system-config.xml",
                                                   "/etc/trik/trikRuntime/model-config.xml",
@@ -39,11 +38,14 @@ public:
     }
 
 private:
+    const char *qargv[2] = {"standalone_trik_node", "-qws"};
+    QApplication *app;
     ros::Timer timer;
     ros::Publisher distancePub;
     trikControl::BrickInterface *brick;
     trikControl::LedInterface *led;
     trikControl::SensorInterface *distanceSensor;
+
 
     void timerCallback(const ros::TimerEvent &event) {
         std_msgs::Int32Ptr distanceMsg(new std_msgs::Int32);
