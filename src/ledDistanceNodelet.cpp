@@ -9,7 +9,7 @@
 class LedDistance : public nodelet::Nodelet {
 public:
     void onInit() {
-        ros::NodeHandle nh = getNodeHandle();
+        ros::NodeHandle nh = getMTNodeHandle();
         ros::Subscriber distanceSub = nh.subscribe("distance", 10, &LedDistance::distanceCallback, this);
         ledPub = nh.advertise<std_msgs::Int32>("led_cmd", 10);
     }
