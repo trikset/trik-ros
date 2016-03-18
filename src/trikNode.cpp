@@ -1,9 +1,9 @@
 #include "ros/ros.h"
 #include "std_msgs/Int32.h"
 
-#include "trikControl/brickInterface.h"
-#include "trikControl/brickFactory.h"
-#include "QtGui/QApplication"
+#include <trikRuntime/trikControl/brickInterface.h>
+#include <trikRuntime/trikControl/brickFactory.h>
+#include <QtGui/QApplication>
 
 #include "ledCommand.h"
 

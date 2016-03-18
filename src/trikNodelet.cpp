@@ -5,8 +5,8 @@
 #include <pluginlib/class_list_macros.h>
 #include <std_msgs/Int32.h>
 
-#include <trikControl/brickInterface.h>
-#include <trikControl/brickFactory.h>
+#include <trikRuntime/trikControl/brickInterface.h>
+#include <trikRuntime/trikControl/brickFactory.h>
 #include <QtGui/qapplication.h>
 
 #include "ledCommand.h"
@@ -25,7 +25,7 @@ public:
         led->off();
         distanceSensor = brick->sensor("A1");
 
-        ros::NodeHandle nh = getNodeHandle();
+        ros::NodeHandle nh = getMTNodeHandle();
         ros::Subscriber ledCmdSub = nh.subscribe("led_cmd", 10, &TrikNodelet::ledCmdCallback, this);
         led->red();
         timer = nh.createTimer(1, &TrikNodelet::timerCallback, this);
