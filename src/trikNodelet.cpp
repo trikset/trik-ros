@@ -18,8 +18,8 @@ public:
         int qargc = 2;
         app = new QApplication(qargc, (char **) qargv);
 
-        brick = trikControl::BrickFactory::create("/etc/trik/trikRuntime/system-config.xml",
-                                                  "/etc/trik/trikRuntime/model-config.xml",
+        brick = trikControl::BrickFactory::create("/home/root/trik/system-config.xml",
+                                                  "/home/root/trik/model-config.xml",
                                                   ".");
         led = brick->led();
         led->off();
@@ -32,6 +32,8 @@ public:
         distancePub = nh.advertise<std_msgs::Int32>("distance", 10);
         led->green();
 
+
+// old way
 //        ros::Subscriber sub = nh.subscribe<std_msgs::Int32>("led_cmd", 10,
 //                                                            boost::bind(&TrikNodelet::ledCmdCallback, this, _1));
 //        timer = nh.createTimer(ros::Duration(1.0), boost::bind(&TrikNodelet::timerCallback, this, _1));

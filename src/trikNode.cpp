@@ -42,8 +42,8 @@ int main(int argc, char **argv) {
     ros::Rate loopRate(1);
 
 
-    brick = trikControl::BrickFactory::create("/etc/trik/trikRuntime/system-config.xml",
-                                              "/etc/trik/trikRuntime/model-config.xml",
+    brick = trikControl::BrickFactory::create("/home/root/trik/system-config.xml",
+                                              "/home/root/trik/model-config.xml",
                                               ".");
     led = brick->led();
     distanceSensor = brick->sensor("A1");

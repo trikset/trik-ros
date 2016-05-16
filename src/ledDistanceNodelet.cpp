@@ -18,7 +18,7 @@ private:
     ros::Publisher ledPub;
 
     void distanceCallback(const std_msgs::Int32ConstPtr &distMsg) {
-        std_msgs::Int32Ptr ledMsg;
+        std_msgs::Int32Ptr ledMsg(new std_msgs::Int32);
 
         int dist = distMsg->data;
         if (dist < 20) {
