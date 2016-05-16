@@ -26,7 +26,7 @@ public:
         distanceSensor = brick->sensor("A1");
 
         ros::NodeHandle nh = getMTNodeHandle();
-        ros::Subscriber ledCmdSub = nh.subscribe("led_cmd", 10, TrikNodelet::ledCmdCallback, this);
+        ros::Subscriber ledCmdSub = nh.subscribe("led_cmd", 10, &TrikNodelet::ledCmdCallback, this);
         led->red();
         timer = nh.createTimer(1, &TrikNodelet::timerCallback, this);
         distancePub = nh.advertise<std_msgs::Int32>("distance", 10);
@@ -55,7 +55,7 @@ private:
         distancePub.publish(distanceMsg);
     }
 
-    void ledCmdCallback(const std_msgs::Int32ConstPtr cmd) {
+    void ledCmdCallback(const std_msgs::Int32ConstPtr &cmd) {
         switch (cmd->data) {
             case LedCommand::OFF:
                 led->off();
