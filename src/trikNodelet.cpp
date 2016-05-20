@@ -5,8 +5,8 @@
 #include <pluginlib/class_list_macros.h>
 #include <std_msgs/Int32.h>
 
-#include <trikRuntime/trikControl/brickInterface.h>
-#include <trikRuntime/trikControl/brickFactory.h>
+#include <trikControl/brickInterface.h>
+#include <trikControl/brickFactory.h>
 #include <QtGui/qapplication.h>
 
 #include "ledCommand.h"

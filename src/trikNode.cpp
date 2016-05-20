@@ -14,6 +14,8 @@ trikControl::SensorInterface *distanceSensor;
 trikControl::MotorInterface *leftMotor;
 trikControl::MotorInterface *rightMotor;
 
+ros::Publisher distancePub;
+
 void ledCallback(const std_msgs::Int32 cmd) {
     switch (cmd.data) {
         case LedCommand::OFF:
@@ -35,9 +37,15 @@ void ledCallback(const std_msgs::Int32 cmd) {
 
 void cmdVelCallback(const geometry_msgs::Twist twist) {
     int leftPower = int((twist.linear.x - twist.angular.z) * 100);
-    int rightPower = int((twist.linear.x + twist.angular.z) * 100);
+    int rightPower = int((twist.linear.x + twist.angular.z ) * 100);
     leftMotor->setPower(leftPower);
     rightMotor->setPower(rightPower);
+}
+
+void timerCallback(const ros::TimerEvent &event) {
+    std_msgs::Int32 distanceMsg;
+    distanceMsg.data = distanceSensor->read();
+    distancePub.publish(distanceMsg);
 }
 
 int main(int argc, char **argv) {
@@ -60,19 +68,14 @@ int main(int argc, char **argv) {
     leftMotor = brick->motor("M1");
     rightMotor = brick->motor("M3");
 
-//    ros::Publisher distancePub = nh.advertise<std_msgs::Int32>("distance", 10);
+
     ros::Subscriber ledCmdSubscriber = nh.subscribe("cmd_led", 10, ledCallback, ros::TransportHints().udp());
     ros::Subscriber velCmdSubscriber = nh.subscribe("cmd_vel", 1, cmdVelCallback, ros::TransportHints().udp());
 
+    distancePub = nh.advertise<std_msgs::Int32>("distance", 10);
+    ros::Timer timer = nh.createTimer(ros::Duration(0.1), timerCallback);
 
     while (ros::ok()) {
-//        std_msgs::Int32 distanceMsg;
-//        distanceMsg.data = distanceSensor->read();
-//        distancePub.publish(distanceMsg);
-
-//        ros::spinOnce();
-//        loopRate.sleep();
-
         ros::spin();
     }
 
