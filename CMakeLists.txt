@@ -12,6 +12,7 @@ catkin_package(
 include_directories(
         ${catkin_INCLUDE_DIRS}
         ${QT}
+        ${TRIK}
 )
 
 add_executable(trikNode src/trikNode.cpp)

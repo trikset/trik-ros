@@ -23,7 +23,7 @@ int main(int argc, char **argv) {
     ros::init(argc, argv, "led_distance");
     ros::NodeHandle nh;
 
-    ledPub = nh.advertise<std_msgs::Int32>("led_cmd", 10);
+    ledPub = nh.advertise<std_msgs::Int32>("cmd_led", 10);
     ros::Subscriber distSub = nh.subscribe("distance", 10, distance_callback);
 
     while (ros::ok()) {

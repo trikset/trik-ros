@@ -1,8 +1,9 @@
-#include "ros/ros.h"
-#include "std_msgs/Int32.h"
+#include <ros/ros.h>
+#include <std_msgs/Int32.h>
+#include <geometry_msgs/Twist.h>
 
-#include <trikRuntime/trikControl/brickInterface.h>
-#include <trikRuntime/trikControl/brickFactory.h>
+#include <trikControl/brickInterface.h>
+#include <trikControl/brickFactory.h>
 #include <QtGui/QApplication>
 
 #include "ledCommand.h"
@@ -10,8 +11,10 @@
 trikControl::BrickInterface *brick;
 trikControl::LedInterface *led;
 trikControl::SensorInterface *distanceSensor;
+trikControl::MotorInterface *leftMotor;
+trikControl::MotorInterface *rightMotor;
 
-void led_callback(const std_msgs::Int32 cmd) {
+void ledCallback(const std_msgs::Int32 cmd) {
     switch (cmd.data) {
         case LedCommand::OFF:
             led->off();
@@ -30,10 +33,16 @@ void led_callback(const std_msgs::Int32 cmd) {
     }
 }
 
+void cmdVelCallback(const geometry_msgs::Twist twist) {
+    int power = int(twist.linear.x * 100);
+    leftMotor->setPower(power);
+    rightMotor->setPower(power);
+}
+
 int main(int argc, char **argv) {
     // start Qt server
     int qargc = 2;
-    const char *qargv[] = {"standalone_trik_node", "-qws"}; // todo: try QApplication::Tty for console app?
+    const char *qargv[] = {"standalone_trik_node", "-qws"};
     QApplication app(qargc, (char **) qargv);
 
     // init ROS node
@@ -47,9 +56,13 @@ int main(int argc, char **argv) {
                                               ".");
     led = brick->led();
     distanceSensor = brick->sensor("A1");
+    leftMotor = brick->motor("M1");
+    rightMotor = brick->motor("M3");
 
     ros::Publisher distancePub = nh.advertise<std_msgs::Int32>("distance", 10);
-    ros::Subscriber sub = nh.subscribe("led_cmd", 10, led_callback);
+    ros::Subscriber ledCmdSubscriber = nh.subscribe("cmd_led", 10, ledCallback);
+    ros::Subscriber velCmdSubscriber = nh.subscribe("cmd_vel", 10, cmdVelCallback);
+
 
     while (ros::ok()) {
         std_msgs::Int32 distanceMsg;
