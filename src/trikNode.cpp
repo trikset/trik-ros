@@ -69,8 +69,10 @@ int main(int argc, char **argv) {
 //        distanceMsg.data = distanceSensor->read();
 //        distancePub.publish(distanceMsg);
 
-        ros::spinOnce();
-        loopRate.sleep();
+//        ros::spinOnce();
+//        loopRate.sleep();
+
+        ros::spin();
     }
 
     return 0;
