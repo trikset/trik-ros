@@ -34,9 +34,10 @@ void ledCallback(const std_msgs::Int32 cmd) {
 }
 
 void cmdVelCallback(const geometry_msgs::Twist twist) {
-    int power = int(twist.linear.x * 100);
-    leftMotor->setPower(power);
-    rightMotor->setPower(power);
+    int leftPower = int((twist.linear.x - twist.angular.z) * 100);
+    int rightPower = int((twist.linear.x + twist.angular.z) * 100);
+    leftMotor->setPower(leftPower);
+    rightMotor->setPower(rightPower);
 }
 
 int main(int argc, char **argv) {
