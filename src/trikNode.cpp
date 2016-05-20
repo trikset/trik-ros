@@ -59,15 +59,15 @@ int main(int argc, char **argv) {
     leftMotor = brick->motor("M1");
     rightMotor = brick->motor("M3");
 
-    ros::Publisher distancePub = nh.advertise<std_msgs::Int32>("distance", 10);
-    ros::Subscriber ledCmdSubscriber = nh.subscribe("cmd_led", 10, ledCallback);
-    ros::Subscriber velCmdSubscriber = nh.subscribe("cmd_vel", 10, cmdVelCallback);
+//    ros::Publisher distancePub = nh.advertise<std_msgs::Int32>("distance", 10);
+    ros::Subscriber ledCmdSubscriber = nh.subscribe("cmd_led", 10, ledCallback, ros::TransportHints().udp());
+    ros::Subscriber velCmdSubscriber = nh.subscribe("cmd_vel", 1, cmdVelCallback, ros::TransportHints().udp());
 
 
     while (ros::ok()) {
-        std_msgs::Int32 distanceMsg;
-        distanceMsg.data = distanceSensor->read();
-        distancePub.publish(distanceMsg);
+//        std_msgs::Int32 distanceMsg;
+//        distanceMsg.data = distanceSensor->read();
+//        distancePub.publish(distanceMsg);
 
         ros::spinOnce();
         loopRate.sleep();
