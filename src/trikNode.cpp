@@ -1,6 +1,7 @@
 #include <ros/ros.h>
 #include <std_msgs/Int32.h>
 #include <geometry_msgs/Twist.h>
+#include <sensor_msgs/Range.h>
 
 #include <trikControl/brickInterface.h>
 #include <trikControl/brickFactory.h>
@@ -43,8 +44,15 @@ void cmdVelCallback(const geometry_msgs::Twist twist) {
 }
 
 void timerCallback(const ros::TimerEvent &event) {
-    std_msgs::Int32 distanceMsg;
-    distanceMsg.data = distanceSensor->read();
+    sensor_msgs::Range distanceMsg;
+
+    int distance = distanceSensor->read();
+    distanceMsg.range = (float) (distance * 0.01);
+    distanceMsg.radiation_type = sensor_msgs::Range::INFRARED;
+    distanceMsg.max_range = 0.8;
+    distanceMsg.min_range = 0.08;
+    distanceMsg.header.frame_id = "ir";
+
     distancePub.publish(distanceMsg);
 }
 
@@ -72,7 +80,7 @@ int main(int argc, char **argv) {
     ros::Subscriber ledCmdSubscriber = nh.subscribe("cmd_led", 10, ledCallback, ros::TransportHints().udp());
     ros::Subscriber velCmdSubscriber = nh.subscribe("cmd_vel", 1, cmdVelCallback, ros::TransportHints().udp());
 
-    distancePub = nh.advertise<std_msgs::Int32>("distance", 10);
+    distancePub = nh.advertise<sensor_msgs::Range>("distance", 10);
     ros::Timer timer = nh.createTimer(ros::Duration(0.1), timerCallback);
 
     while (ros::ok()) {
