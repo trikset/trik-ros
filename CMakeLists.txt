@@ -15,19 +15,19 @@ include_directories(
         ${TRIK}
 )
 
-add_executable(trikNode src/trikNode.cpp)
+add_executable(trikNode src/node.cpp src/trik.cpp src/sensor.cpp src/motor.cpp)
 target_link_libraries(trikNode ${catkin_LIBRARIES} trikControl QtCoreE QtGuiE)
 
 add_executable(ledDistance src/ledDistance.cpp)
 target_link_libraries(ledDistance ${catkin_LIBRARIES})
 
-add_library(trikNodelet src/trikNodelet.cpp)
-target_link_libraries(trikNodelet ${catkin_LIBRARIES} trikControl QtCoreE QtGuiE)
+#add_library(trikNodelet src/nodelet.cpp)
+#target_link_libraries(trikNodelet ${catkin_LIBRARIES} trikControl QtCoreE QtGuiE)
 
-add_library(ledDistanceNodelet src/ledDistanceNodelet.cpp)
-target_link_libraries(ledDistanceNodelet ${catkin_LIBRARIES})
+#add_library(ledDistanceNodelet src/ledDistanceNodelet.cpp)
+#target_link_libraries(ledDistanceNodelet ${catkin_LIBRARIES})
 
-install(TARGETS trikNodelet trikNode ledDistance ledDistanceNodelet
+install(TARGETS trikNode ledDistance
         ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
         LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
         RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
