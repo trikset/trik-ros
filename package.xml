@@ -19,7 +19,7 @@
   <run_depend>nodelet</run_depend>
 
   <export>
-    <nodelet plugin="${prefix}/trik_nodelet.xml" />
-    <nodelet plugin="${prefix}/led_distance_nodelet.xml" />
+    <nodelet plugin="${prefix}/nodelets/trik_nodelet.xml" />
+    <nodelet plugin="${prefix}/nodelets/led_distance_nodelet.xml" />
   </export>
 </package>
