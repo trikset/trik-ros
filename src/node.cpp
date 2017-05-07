@@ -1,5 +1,5 @@
 #include <ros/ros.h>
-#include <QtGui/QApplication>
+#include <QtWidgets/QApplication>
 #include "trik.h"
 
 int main(int argc, char **argv) {

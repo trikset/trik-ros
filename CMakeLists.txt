@@ -1,9 +1,11 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(trik_ros)
 
-set(CMAKE_CXX_FLAGS "-std=c++11")
-
 find_package(catkin REQUIRED COMPONENTS nodelet roscpp)
+find_package(Qt5Widgets REQUIRED)
+set (CMAKE_AUTOMOC ON)
+set (CMAKE_INCLUDE_CURRENT_DIR ON)
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 catkin_package(
         CATKIN_DEPENDS nodelet roscpp
@@ -16,13 +18,13 @@ include_directories(
 )
 
 add_executable(trikNode src/node.cpp src/trik.cpp src/sensor.cpp src/motor.cpp)
-target_link_libraries(trikNode ${catkin_LIBRARIES} trikControl QtCoreE QtGuiE)
+target_link_libraries(trikNode ${catkin_LIBRARIES} trikControl Qt5::Widgets)
 
 add_executable(ledDistance src/ledDistance.cpp)
 target_link_libraries(ledDistance ${catkin_LIBRARIES})
 
 #add_library(trikNodelet src/nodelet.cpp)
-#target_link_libraries(trikNodelet ${catkin_LIBRARIES} trikControl QtCoreE QtGuiE)
+#target_link_libraries(trikNodelet ${catkin_LIBRARIES} trikControl Qt5::Widgets)
 
 #add_library(ledDistanceNodelet src/ledDistanceNodelet.cpp)
 #target_link_libraries(ledDistanceNodelet ${catkin_LIBRARIES})
